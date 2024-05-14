@@ -1,26 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import Home from './components/home/Home';
+import Navbar from './components/navbar/Navbar';
+import CarDetails from './components/cars/CarsDetails';
+import Cars from './components/cars/Cars';
+import User from './components/user/User';
+import Rental from './components/rental/Rental';
+import RentalDetails from './components/rental/RentalDetails';
+import UserDetails from './components/user/UserDetails';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/cars" element={<Cars />} />
+        <Route path="/cars/:id" element={<CarDetails />} /> 
+        <Route path="/rentals" element={<Rental />} />
+        <Route path="/rentals/:id" element={<RentalDetails id={0} />} />
+        <Route path="/users" element={<User />} />
+        <Route path="/users/:id" element={<UserDetails id={0} />} />
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;
