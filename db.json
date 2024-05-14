@@ -1,0 +1,184 @@
+{
+  "cars": [
+    {
+      "id": "1",
+      "brand": "Ferrari",
+      "model": "Tributo F8",
+      "plate": "LK948KL",
+      "price": 1000,
+      "image": "https://cdn.ferrari.com/cms/network/media/img/resize/6093caed556ada6f1ece41b5-ferrari-magazine-HJLc7oT-WE.jpg?width=830&height=0"
+    },
+    {
+      "id": "2",
+      "brand": "Lamborghini",
+      "model": "Huracan",
+      "plate": "EF456GH",
+      "price": 1200,
+      "image": "https://ind-distribution.com/cdn/shop/products/lamborghini-huracan-performante-vicenzo-edizione_32862661147_o.jpg?v=1587906166"
+    },
+    {
+      "id": "3",
+      "brand": "Porsche",
+      "model": "911",
+      "plate": "IJ789KL",
+      "price": 900,
+      "image": "https://newsroom.porsche.com/.imaging/mte/porsche-templating-theme/teaser_720x406x2/dam/pnr/2022/Products/911-Classic/Exterior/_F1A0902_le_02a.jpeg/jcr:content/_F1A0902_le_02a.jpeg"
+    },
+    {
+      "id": "4",
+      "brand": "BMW",
+      "model": "M5",
+      "plate": "MN101OP",
+      "price": 800,
+      "image": "https://www.evolveautomotive.co.uk/cdn/shop/products/rkp-carbon-fibre-front-lip-bmw-5-series-f90-m5-795208.jpg?v=1685964913"
+    },
+    {
+      "id": "5",
+      "brand": "Audi",
+      "model": "R8",
+      "plate": "QR202ST",
+      "price": 1100,
+      "image": "https://www.carscoops.com/wp-content/uploads/2019/02/2019-ferrari-f8-tributo-1.jpg"
+    },
+    {
+      "id": "6",
+      "brand": "Mercedes-Benz",
+      "model": "AMG GT",
+      "plate": "UV303WX",
+      "price": 950,
+      "image": "https://www.carscoops.com/wp-content/uploads/2019/02/2019-ferrari-f8-tributo-1.jpg"
+    },
+    {
+      "id": "7",
+      "brand": "Tesla",
+      "model": "Model S",
+      "plate": "YZ404AB",
+      "price": 1300,
+      "image": "https://www.carscoops.com/wp-content/uploads/2019/02/2019-ferrari-f8-tributo-1.jpg"
+    },
+    {
+      "id": "8",
+      "brand": "Chevrolet",
+      "model": "Corvette",
+      "plate": "CD505EF",
+      "price": 1000,
+      "image": "https://www.carscoops.com/wp-content/uploads/2019/02/2019-ferrari-f8-tributo-1.jpg"
+    },
+    {
+      "id": "9",
+      "brand": "Ford",
+      "model": "Mustang",
+      "plate": "GH606IJ",
+      "price": 850,
+      "image": "https://www.carscoops.com/wp-content/uploads/2019/02/2019-ferrari-f8-tributo-1.jpg"
+    },
+    {
+      "id": "10",
+      "brand": "Toyota",
+      "model": "Corolla",
+      "plate": "FX777XI",
+      "price": 100,
+      "image": "https://www.carscoops.com/wp-content/uploads/2019/02/2019-ferrari-f8-tributo-1.jpg"
+    },
+    {
+      "id": 11,
+      "brand": "Ferrari",
+      "model": "F8",
+      "plate": "SJ 388 SJ",
+      "price": 1000,
+      "image": ""
+    }
+  ],
+  "rentals": [
+    {
+      "id": "1",
+      "carId": 1,
+      "startDate": "2024-06-02",
+      "endDate": "2024-06-10",
+      "userId": 1,
+      "totalPrice": 9000
+    },
+    {
+      "id": "2",
+      "carId": 2,
+      "startDate": "2024-06-03",
+      "endDate": "2024-06-11",
+      "userId": 2,
+      "totalPrice": 9000
+    },
+    {
+      "id": "3",
+      "carId": "3",
+      "userId": "3",
+      "startDate": "2024-06-11",
+      "endDate": "2024-06-18",
+      "totalPrice": 8000
+    },
+    {
+      "id": "4",
+      "carId": "4",
+      "userId": "4",
+      "startDate": "2024-06-16",
+      "endDate": "2024-06-23",
+      "totalPrice": 6800
+    },
+    {
+      "id": "5",
+      "carId": "5",
+      "userId": 5,
+      "startDate": "2024-06-21",
+      "endDate": "2024-06-28",
+      "totalPrice": 700
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "name": "Paolo",
+      "surname": "Lauria",
+      "email": "0paololauria@gmail.com"
+    },
+    {
+      "id": "2",
+      "name": "Luigi",
+      "surname": "Verdi",
+      "email": "luigi@example.com"
+    },
+    {
+      "id": "3",
+      "name": "Giovanni",
+      "surname": "Bianchi",
+      "email": "giovanni@example.com"
+    },
+    {
+      "id": "4",
+      "name": "Paolo",
+      "surname": "Neri",
+      "email": "paolo@example.com"
+    },
+    {
+      "id": "6",
+      "name": "Giulia",
+      "surname": "Rossi",
+      "email": "giulia@example.com"
+    },
+    {
+      "id": "7",
+      "name": "Stefano",
+      "surname": "Bianchi",
+      "email": "stefano@example.com"
+    },
+    {
+      "id": "8",
+      "name": "Sara",
+      "surname": "Neri",
+      "email": "sara@example.com"
+    },
+    {
+      "id": "9",
+      "name": "Alessio",
+      "surname": "Verdi",
+      "email": "alessio@example.com"
+    }
+  ]
+}
