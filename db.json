@@ -46,7 +46,7 @@
       "model": "AMG GT",
       "plate": "UV303WX",
       "price": 950,
-      "image": "https://www.carscoops.com/wp-content/uploads/2019/02/2019-ferrari-f8-tributo-1.jpg"
+      "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2021-mercedes-amg-gt-black-series-127-1596137763.jpg"
     },
     {
       "id": "7",
@@ -54,80 +54,64 @@
       "model": "Model S",
       "plate": "YZ404AB",
       "price": 1300,
-      "image": "https://www.carscoops.com/wp-content/uploads/2019/02/2019-ferrari-f8-tributo-1.jpg"
+      "image": "https://www.tesla.com/sites/default/files/blog_images/model-s-design-your-own.jpg"
     },
     {
       "id": "8",
-      "brand": "Chevrolet",
-      "model": "Corvette",
-      "plate": "CD505EF",
-      "price": 1000,
-      "image": "https://www.carscoops.com/wp-content/uploads/2019/02/2019-ferrari-f8-tributo-1.jpg"
-    },
-    {
-      "id": "9",
-      "brand": "Ford",
-      "model": "Mustang",
-      "plate": "GH606IJ",
-      "price": 850,
-      "image": "https://www.carscoops.com/wp-content/uploads/2019/02/2019-ferrari-f8-tributo-1.jpg"
-    },
-    {
-      "id": "10",
-      "brand": "Toyota",
-      "model": "Corolla",
-      "plate": "FX777XI",
-      "price": 100,
-      "image": "https://www.carscoops.com/wp-content/uploads/2019/02/2019-ferrari-f8-tributo-1.jpg"
-    },
-    {
-      "id": 11,
       "brand": "Ferrari",
       "model": "F8",
-      "plate": "SJ 388 SJ",
+      "plate": "SJ388SJ",
       "price": 1000,
-      "image": ""
+      "image": "https://www.carscoops.com/wp-content/uploads/2019/02/2019-ferrari-f8-tributo-1.jpg"
+    },
+    {
+      "id": 9,
+      "brand": "Prova",
+      "model": "Test",
+      "plate": "TE 571 ET",
+      "price": 1000,
+      "image": "https://cdn.ferrari.com/cms/network/media/img/resize/6093caed556ada6f1ece41b5-ferrari-magazine-HJLc7oT-WE.jpg?width=830&height=0"
     }
   ],
   "rentals": [
     {
       "id": "1",
-      "carId": 1,
+      "carId": "1",
       "startDate": "2024-06-02",
       "endDate": "2024-06-10",
-      "userId": 1,
+      "userId": "1",
       "totalPrice": 9000
     },
     {
       "id": "2",
-      "carId": 2,
+      "carId": "2",
       "startDate": "2024-06-03",
       "endDate": "2024-06-11",
-      "userId": 2,
+      "userId": "2",
       "totalPrice": 9000
     },
     {
       "id": "3",
       "carId": "3",
-      "userId": "3",
       "startDate": "2024-06-11",
       "endDate": "2024-06-18",
+      "userId": "3",
       "totalPrice": 8000
     },
     {
       "id": "4",
       "carId": "4",
-      "userId": "4",
       "startDate": "2024-06-16",
       "endDate": "2024-06-23",
+      "userId": "4",
       "totalPrice": 6800
     },
     {
       "id": "5",
       "carId": "5",
-      "userId": 5,
       "startDate": "2024-06-21",
       "endDate": "2024-06-28",
+      "userId": "5",
       "totalPrice": 700
     }
   ],
@@ -157,28 +141,10 @@
       "email": "paolo@example.com"
     },
     {
-      "id": "6",
+      "id": "5",
       "name": "Giulia",
       "surname": "Rossi",
       "email": "giulia@example.com"
-    },
-    {
-      "id": "7",
-      "name": "Stefano",
-      "surname": "Bianchi",
-      "email": "stefano@example.com"
-    },
-    {
-      "id": "8",
-      "name": "Sara",
-      "surname": "Neri",
-      "email": "sara@example.com"
-    },
-    {
-      "id": "9",
-      "name": "Alessio",
-      "surname": "Verdi",
-      "email": "alessio@example.com"
     }
   ]
 }
