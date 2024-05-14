@@ -1,53 +1,34 @@
-import { CarDto } from "../../model/car/CarDto";
-import axios from "axios";
+import { useQuery, useMutation } from 'react-query';
+import axios from 'axios';
+import { CarDto } from '../../model/car/CarDto';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = "http://localhost:3001";
 
-export const getCarById = async (id: number): Promise<CarDto | null> => {
-  try {
+export const useCarById = (id: number) => {
+  return useQuery<CarDto | null>(['car', id], async () => {
     const response = await axios.get(`${API_URL}/cars/${id}`);
     return response.data;
-  } catch (error) {
-    console.error('Error fetching car:', error);
-    return null;
-  }
-}
+  });
+};
 
-export const getAllCars = async (): Promise<CarDto[]> => {
-  try {
+export const useAllCars = () => {
+  return useQuery<CarDto[]>('cars', async () => {
     const response = await axios.get(`${API_URL}/cars`);
     return response.data;
-  } catch (error) {
-    console.error('Error fetching cars:', error);
-    return [];
-  }
+  });
 };
 
-export const addCar = async (newCar: CarDto): Promise<CarDto> => {
-  try {
-    const response = await axios.post(`${API_URL}/cars`, newCar);
-    return response.data;
-  } catch (error) {
-    console.error('Error adding car:', error);
-    throw new Error('Error adding car');
-  }
+export const useAddCar = () => {
+  return useMutation((newCar: CarDto) => axios.post(`${API_URL}/cars`, newCar));
 };
 
-export const editCar = async (updatedCar: CarDto): Promise<CarDto> => {
-  try {
-    const response = await axios.put(`${API_URL}/cars/${updatedCar.id}`, updatedCar);
-    return response.data;
-  } catch (error) {
-    console.error('Error editing car:', error);
-    throw new Error('Error editing car');
-  }
+export const useEditCar = () => {
+  return useMutation((updatedCar: CarDto) => {
+    const { id, ...data } = updatedCar;
+    return axios.put(`${API_URL}/cars/${id}`, data);
+  });
 };
 
-export const deleteCar = async (id: number): Promise<void> => {
-  try {
-    await axios.delete(`${API_URL}/cars/${id}`);
-  } catch (error) {
-    console.error('Error deleting car:', error);
-    throw new Error('Error deleting car');
-  }
+export const useDeleteCar = () => {
+  return useMutation((id: number) => axios.delete(`${API_URL}/cars/${id}`));
 };

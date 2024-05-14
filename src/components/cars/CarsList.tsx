@@ -1,40 +1,49 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { CarDto } from "../../model/car/CarDto";
 import {
-  getAllCars,
-  addCar,
-  editCar,
-  deleteCar,
+  useAddCar,
+  useAllCars,
+  useDeleteCar,
+  useEditCar,
 } from "../../services/car/CarService";
 import { Link } from "react-router-dom";
-// FORMIK per i forms
+import CarForm from "../shared/CarForm";
+import { max } from "moment";
+
 function CarsLists() {
-  const [cars, setCars] = useState<CarDto[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editCarId, setEditCarId] = useState<number | null>(null);
-  const [newCarBrand, setNewCarBrand] = useState("");
-  const [newCarModel, setNewCarModel] = useState("");
-  const [newCarPlate, setNewCarPlate] = useState("");
-  const [newCarPrice, setNewCarPrice] = useState(0);
-  const [newCarImage, setNewCarImage] = useState("");
+  const [idCar, setIdCar] = useState(0);
+  // Oggetto al posto di singole proprietà
+  const [formData, setFormData] = useState<CarDto>({
+    id: 0,
+    brand: "",
+    model: "",
+    plate: "",
+    price: 0,
+    image: "",
+  });
   const [searchTerm, setSearchTerm] = useState("");
-
   const [filterBy, setFilterBy] = useState<"brand" | "model" | "plate">(
     "brand"
   );
 
+  const { data: carsData, refetch: refetchCars } = useAllCars();
+
+  const addCarMutation = useAddCar();
+  const editCarMutation = useEditCar();
+  const deleteCarMutation = useDeleteCar();
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const carsData: CarDto[] = await getAllCars();
-        setCars(carsData);
-      } catch (error) {
-        console.error("Errore recupero auto:", error);
-      }
-    };
-    fetchData();
+    refetchCars();
   }, []);
+
+  useEffect(() => {
+    if (carsData) {
+      const maxId = carsData.reduce((maxId, car) => Math.max(car.id, maxId), 0);
+      setIdCar(maxId + 1);
+    }
+  }, [carsData]);
 
   const handleFilterByChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -47,67 +56,53 @@ function CarsLists() {
   };
 
   const filteredCars = useMemo(() => {
-    return cars.filter((car) => {
+    if (!carsData) return [];
+    return carsData.filter((car: CarDto) => {
       const value = car[filterBy].toLowerCase();
       return value.includes(searchTerm.toLowerCase());
     });
-  }, [cars, filterBy, searchTerm]);
+  }, [carsData, filterBy, searchTerm]);
 
-  const handleAddCar = async () => {
-    try {
-      const newCarId =
-        cars.length > 0 ? Math.max(...cars.map((car) => car.id)) + 1 : 1;
-      const newCar: CarDto = {
-        id: newCarId,
-        brand: newCarBrand,
-        model: newCarModel,
-        plate: newCarPlate,
-        price: newCarPrice,
-        image: newCarImage,
-      };
-      const addedCar: CarDto = await addCar(newCar);
-      setCars([...cars, addedCar]);
-      setShowAddModal(false);
-      setNewCarBrand("");
-      setNewCarModel("");
-      setNewCarPlate("");
-      setNewCarPrice(0);
-      setNewCarImage("");
-    } catch (error) {
-      console.error("Errore aggiunta auto:", error);
-    }
-  };
+const handleAddCar = async (values: CarDto) => {
+  try {
+    const newCar = { ...values, id: idCar }; 
+    await addCarMutation.mutateAsync(newCar);
+    setShowAddModal(false);
+    refetchCars();
+  } catch (error) {
+    console.error("Errore aggiunta auto:", error);
+  }
+};
 
-  const handleEditCar = async (car: CarDto) => {
-    try {
-      await editCar(car);
-      const updatedCars = cars.map((c) => (c.id === car.id ? car : c));
-      setCars(updatedCars);
-      setShowEditModal(false);
-      setEditCarId(null);
-    } catch (error) {
-      console.error("Errore modifica auto:", error);
-    }
-  };
+const handleEditCar = async (values: CarDto) => {
+  try {
+    const { id, ...updatedFields } = values;
+    await editCarMutation.mutateAsync({ id, ...updatedFields });
+    setShowEditModal(false);
+    refetchCars();
+  } catch (error) {
+    console.error("Errore modifica auto:", error);
+  }
+};
 
-  const handleDeleteCar = async (carId: number) => {
-    try {
-      await deleteCar(carId);
-      const updatedCars = cars.filter((c) => c.id !== carId);
-      setCars(updatedCars);
-    } catch (error) {
-      console.error("Errore eliminazione auto:", error);
-    }
-  };
+const handleDeleteCar = async (id: number) => {
+  try {
+    // Aggiungere una conferma di eliminazione
+    const confirmDelete = window.confirm("Sei sicuro di voler eliminare questa auto?");
+    if (!confirmDelete) return; 
 
-  // const filteredCars = cars.filter((car) =>
-  //   car.brand.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
+    await deleteCarMutation.mutateAsync(id);
+    console.log("Auto eliminata con successo");
+  } catch (error) {
+    console.error("Errore eliminazione auto:", error);
+  }
+};
 
   return (
     <div className="flex flex-col items-center justify-center">
       <h1 className="text-3xl font-bold mb-4">Lista delle auto</h1>
 
+      {/* Filtri */}
       <div className="flex items-center space-x-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -140,17 +135,22 @@ function CarsLists() {
           className="input input-bordered input-primary"
         />
       </div>
+
+      {/* Bottone per aggiungere auto */}
       <button
         onClick={() => setShowAddModal(true)}
         className="btn btn-primary mb-4 mt-4"
       >
         Aggiungi auto
       </button>
+
+      {/* Tabella delle auto */}
       <div className="overflow-x-auto">
         <table className="table">
           <thead>
             <tr>
               <th></th>
+              <th>Auto ID</th>
               <th>Marca</th>
               <th>Modello</th>
               <th>Targa</th>
@@ -159,9 +159,10 @@ function CarsLists() {
             </tr>
           </thead>
           <tbody>
-            {filteredCars.map((car, index) => (
+            {filteredCars.map((car: CarDto, index: number) => (
               <tr key={car.id} className="hover:text-primary">
                 <td>{index + 1}</td>
+                <td>{car.id}</td>
                 <td>
                   <Link to={`/cars/${car.id}`}>{car.brand}</Link>
                 </td>
@@ -172,7 +173,7 @@ function CarsLists() {
                   <button
                     onClick={() => {
                       setShowEditModal(true);
-                      setEditCarId(car.id);
+                      setFormData(car);
                     }}
                     className="btn btn-sm btn-primary mr-2"
                   >
@@ -190,6 +191,8 @@ function CarsLists() {
           </tbody>
         </table>
       </div>
+
+      {/* Modale Aggiunta Auto */}
       {showAddModal && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-8 rounded shadow-lg">
@@ -202,62 +205,21 @@ function CarsLists() {
                 X
               </button>
             </div>
-            <div className="flex flex-col gap-4">
-              <input
-                type="text"
-                placeholder="Marca"
-                value={newCarBrand}
-                onChange={(e) => setNewCarBrand(e.target.value)}
-                className="input input-bordered"
-              />
-              <input
-                type="text"
-                placeholder="Modello"
-                value={newCarModel}
-                onChange={(e) => setNewCarModel(e.target.value)}
-                className="input input-bordered"
-              />
-              <input
-                type="text"
-                placeholder="Targa"
-                value={newCarPlate}
-                onChange={(e) => setNewCarPlate(e.target.value)}
-                className="input input-bordered"
-              />
-              <input
-                type="number"
-                placeholder="Prezzo al giorno"
-                value={newCarPrice}
-                onChange={(e) => setNewCarPrice(parseFloat(e.target.value))}
-                className="input input-bordered"
-              />
-              <input
-                type="text"
-                placeholder="Url immagine"
-                value={newCarImage}
-                onChange={(e) => setNewCarImage(e.target.value)}
-                className="input input-bordered"
-              />
-            </div>
-            <div className="flex justify-end mt-4">
-              <button onClick={handleAddCar} className="btn btn-primary">
-                Aggiungi
-              </button>
-              <button
-                onClick={() => setShowAddModal(false)}
-                className="btn btn-ghost"
-              >
-                Annulla
-              </button>
-            </div>
+            <CarForm
+              initialValues={formData}
+              onSubmit={handleAddCar}
+              onCancel={() => setShowAddModal(false)}
+            />
           </div>
         </div>
       )}
+
+      {/* Modale Modifica Auto */}
       {showEditModal && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-8 rounded shadow-lg">
             <div className="flex justify-between mb-4">
-              <h3 className="text-lg font-bold">Modifica i dati</h3>
+              <h3 className="text-lg font-bold">Inserisci i dati</h3>
               <button
                 onClick={() => setShowEditModal(false)}
                 className="btn btn-ghost"
@@ -265,59 +227,11 @@ function CarsLists() {
                 X
               </button>
             </div>
-            <div className="flex flex-col gap-4">
-              <input
-                type="text"
-                placeholder="Marca"
-                value={newCarBrand}
-                onChange={(e) => setNewCarBrand(e.target.value)}
-                className="input input-bordered"
-              />
-              <input
-                type="text"
-                placeholder="Modello"
-                value={newCarModel}
-                onChange={(e) => setNewCarModel(e.target.value)}
-                className="input input-bordered"
-              />
-              <input
-                type="text"
-                placeholder="Targa"
-                value={newCarPlate}
-                onChange={(e) => setNewCarPlate(e.target.value)}
-                className="input input-bordered"
-              />
-              <input
-                type="number"
-                placeholder="Prezzo al giorno"
-                value={newCarPrice}
-                onChange={(e) => setNewCarPrice(parseFloat(e.target.value))}
-                className="input input-bordered"
-              />
-            </div>
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={() =>
-                  handleEditCar({
-                    id: editCarId as number,
-                    brand: newCarBrand,
-                    model: newCarModel,
-                    plate: newCarPlate,
-                    price: newCarPrice,
-                    image: newCarImage,
-                  })
-                }
-                className="btn btn-primary"
-              >
-                Salva
-              </button>
-              <button
-                onClick={() => setShowEditModal(false)}
-                className="btn btn-ghost"
-              >
-                Annulla
-              </button>
-            </div>
+            <CarForm
+              initialValues={formData}
+              onSubmit={handleEditCar}
+              onCancel={() => setShowEditModal(false)}
+            />
           </div>
         </div>
       )}
